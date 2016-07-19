@@ -1,0 +1,21 @@
+BEGIN
+  DECLARE y INT;
+  DECLARE cur1 CURSOR FOR SELECT current FROM benki.current_account;
+  OPEN cur1;
+	  read_loop: LOOP
+	  FETCH cur1 INTO y;
+		IF y > 10000 THEN
+		  UPDATE current_account SET u_amount=(0.16 * y )+y;
+		END IF;
+		IF y > 1000 && y <=10000 THEN 
+		  UPDATE current_account SET u_amount=(0.14 * y )+y;
+		END IF;
+		IF y > 100 && y <=1000 THEN
+		  UPDATE current_account SET u_amount=(0.12 * y )+y;
+		END IF;
+		IF y > 1 && y <=100 THEN
+		  UPDATE current_account SET u_amount=(0.10 * y )+y;
+		END IF;
+	  END LOOP;
+  CLOSE cur1;
+END
